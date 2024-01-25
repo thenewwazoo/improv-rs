@@ -12,3 +12,5 @@ it directly using cargo:
 ```bash
 cargo run -- /dev/tty.usb-serial01 myssid hunter2
 ```
+
+then mash the enter key to drive the various steps of Improv provisioning in a loop.
