@@ -3,7 +3,7 @@
 use std::io::Write;
 use std::{io, thread};
 
-use improv_rs::{ImprovPacket, RPCCommand, WifiSettings};
+use improv::{ImprovPacket, RPCCommand, WifiSettings};
 
 fn usage() -> ! {
     panic!(
