@@ -8,7 +8,7 @@ use improv::{ImprovPacket, RPCCommand, WifiSettings};
 fn usage() -> ! {
     panic!(
         "usage: {} <port> <ssid> <psk>",
-        std::env::args().nth(0).unwrap()
+        std::env::args().next().unwrap()
     )
 }
 
@@ -28,8 +28,8 @@ fn main() {
         ImprovPacket::RPCCommand(RPCCommand::RequestDeviceInformation),
         ImprovPacket::RPCCommand(RPCCommand::RequestScannedWifiNetworks),
         ImprovPacket::RPCCommand(RPCCommand::SendWifiSettings(WifiSettings {
-            ssid: String::from(std::env::args().nth(2).unwrap_or_else(|| usage())),
-            psk: String::from(std::env::args().nth(3).unwrap_or_else(|| usage())),
+            ssid: std::env::args().nth(2).unwrap_or_else(|| usage()),
+            psk: std::env::args().nth(3).unwrap_or_else(|| usage()),
         })),
     ];
     let mut i = 0;
@@ -40,7 +40,7 @@ fn main() {
 
         let p = packets[i].clone();
         i += 1;
-        i = i % packets.len();
+        i %= packets.len();
 
         println!("sending!");
         outp.write_all(&<ImprovPacket as Into<Vec<u8>>>::into(p))

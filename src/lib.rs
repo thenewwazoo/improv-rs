@@ -11,14 +11,14 @@ pub enum ImprovPacket {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-enum CurrentState {
+pub enum CurrentState {
     Ready,
     Provisioning,
     Provisioned,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-enum ErrorState {
+pub enum ErrorState {
     NoError,
     InvalidRPCPacket,
     UnknownRPCCommand,
@@ -41,7 +41,7 @@ pub struct WifiSettings {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-struct RPCResult(Vec<Vec<u8>>);
+pub struct RPCResult(Vec<Vec<u8>>);
 
 trait TypedPacket {
     const TYPE: u8;
@@ -181,11 +181,10 @@ impl RPCResult {
     fn inner(self) -> Vec<u8> {
         self.0
             .into_iter()
-            .map(|mut v| {
+            .flat_map(|mut v| {
                 v.insert(0, v.len() as u8);
                 v
             })
-            .flatten()
             .collect()
     }
 }
